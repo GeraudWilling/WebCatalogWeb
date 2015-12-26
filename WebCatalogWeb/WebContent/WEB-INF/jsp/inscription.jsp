@@ -17,7 +17,7 @@ www.geraudwilling.com
 	        <p><form:input path="adresse" placeholder="Adresse"/></p>
 	        <p><form:password path="carte" id="password1" placeholder="Mot de Passe"/></p>
 	        <p><input type="password" id="password2" placeholder="Confirmation password"/></p>
-	        <p class="submit"><input type="submit" name="commit" value="Inscription"></p>
+	        <p class="submit"><button  onclick="submitInscription();" name="commit" value="Inscription">Inscription</button></p>
       </form:form>
 </div>
 

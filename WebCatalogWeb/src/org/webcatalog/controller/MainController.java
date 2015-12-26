@@ -16,6 +16,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.webcatalog.util.Context;
 import org.webcatalog.util.Panier;
 
+import perso.webcatalog.bean.Categorie;
+import perso.webcatalog.bean.Client;
+import perso.webcatalog.bean.Produit;
+import perso.webcatalog.remote.FacadeCategorieRemote;
+import perso.webcatalog.remote.FacadeClientRemote;
+import perso.webcatalog.remote.FacadeProduitRemote;
+
 
 
 @Controller
@@ -129,6 +136,7 @@ public class MainController {
 			e.printStackTrace();
 			return "inscription";
 		}
+		System.out.println("insc**");
 		session.setAttribute("user",client);
 		return "summary";
 	}

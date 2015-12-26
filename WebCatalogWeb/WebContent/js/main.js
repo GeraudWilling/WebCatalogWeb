@@ -48,3 +48,18 @@ function inscription(event){
 	$("#index_content").load("inscription.xhtml");
 	event.preventDefault();
 }
+
+function submitInscription(){
+	var str = $("#form").serialize();
+
+	$.ajax({
+	    type:"post",
+	    data:str,
+	    url:"/inscription.xhtml",
+	    async: false,
+	    dataType: "json",
+	    success: function(){
+	       alert("success");
+	    }
+	});
+}
