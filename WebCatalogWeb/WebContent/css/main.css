@@ -1,0 +1,52 @@
+body {
+	/*background-image: url('http://crunchify.com/bg.png');*/
+}
+
+#header{
+}
+li{
+	list-style: none;
+}
+
+.sucess{
+	border: 1px solid green;
+}
+
+.error{
+	border: 1px solid red;
+}
+
+table{
+	width: 100%;
+}
+#index_content{
+	width: 100%;
+}
+/*#menu{
+	display:inline-block;
+	margin-right: 2%;
+	border: 1px white solid;
+	width: 15%;
+}
+
+#menu,#index_content{
+	border: 1px white solid;
+	height: 100%;
+
+}
+
+#content{
+	padding: 2%;	
+	width: 100%;
+	height: 50%;
+}
+
+#index_content{
+	display:inline-block;
+	width: 75%;
+}
+
+#footer{
+	text-align: center;
+	font-size: 1em;
+}*/
