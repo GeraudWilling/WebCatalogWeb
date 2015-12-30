@@ -10,7 +10,7 @@
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 	<title>WEB CATALOG</title>
 	<link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
-	<link href='<c:url value="/css/main.css"/>' rel="stylesheet">
+	<link href='<c:url value="/css/main.css"/>' rel="stylesheet" />
 	
 	<!--[if lte IE 6]><link rel="stylesheet" href="css/ie6.css" type="text/css" media="all" /><![endif]-->	
 	<meta name="keywwords" content="Shop Around - Great free html template for on-line shop. Use it as a start point for your on line business. The template can be easily implemented in many open source E-commerce platforms" />
@@ -25,7 +25,7 @@
 	<!-- End JS -->
 	
 </head>
-<body onload="actualise(event)">
+<body onload="actualise(event);documentReady();">
 	
 <!-- Shell -->	
 <div class="shell">
@@ -193,21 +193,7 @@
 	
 </div>	
 <!-- End Shell -->
-<script type="text/javascript">
-$(document).ready(function(){
-	$('#password2').on('keyup', function(){
-		if($('#password1').val() !=  $('#password2').val()){
-			$('#password2').attr("class", "error");
-		}
-		else{
-			$('#password2').attr("class", "sucess");
-		}
-	});
-	$('body').on('finishCartLoad', function() {
-		actualise(event);
-    });
-});
-</script>	
+
 	
 </body>
 </html>

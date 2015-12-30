@@ -9,17 +9,17 @@ li{
 }
 
 .sucess{
-	border: 1px solid green;
+	background-color: green;
 }
 
 .error{
-	border: 1px solid red;
+	background-color:red;
 }
 
 table{
 	width: 100%;
 }
-#index_content{
+#index_content, .form, .inscription{
 	width: 100%;
 }
 /*#menu{

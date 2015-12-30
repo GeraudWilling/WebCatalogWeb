@@ -16,6 +16,9 @@ function addToCart(event,id){
 	$("#index_content").load("addToCart.xhtml?id="+ id, function(a,b,c){
 		$('body').trigger('finishCartLoad');
 	});
+	$('body').on('finishCartLoad', function() {
+		actualise(event);
+    });
 	event.preventDefault();
 }
 
@@ -49,17 +52,55 @@ function inscription(event){
 	event.preventDefault();
 }
 
-function submitInscription(){
-	var str = $("#form").serialize();
+function submitInscription(event){
+	$.ajaxSetup({ cache: false });
+	var mydata= $(".form").serialize();
+	if($("#nom").val() == "" || $("#nom").val()== "" ||$("#nom").val()== ""
+		|| $("#nom").val()== "" || $("#nom").val() == ""){
+		alert("Veuillez remplir tous les champs");
+	}
+	else if($("#password1").val() != $("#password2").val() ){
+		alert("Mots de passes differents");
+	}
+	else{
+		$.ajax({
+	        url: $(".form").attr('action'), 
+	        type: $(".form").attr('method'), 
+	        data: mydata, 
+	        success: function(html) { 
+	        	$("#index_content").load("validate.xhtml");
+	        }
+	    });
+		event.preventDefault();
+	}
+}
 
+
+function checkLogin(event){
+	$.ajaxSetup({ cache: false });
+	var mydata= $(".form").serialize();
+	//$("#index_content").load("checkLogin.xhtml?mail="+$("#login").val()+"&pw="+ $("#password") );
 	$.ajax({
-	    type:"post",
-	    data:str,
-	    url:"/inscription.xhtml",
-	    async: false,
-	    dataType: "json",
-	    success: function(){
-	       alert("success");
-	    }
+        url: $(".form").attr('action'), 
+        type: $(".form").attr('method'), 
+        data: mydata, 
+        success: function(html) { 
+        	$("#index_content").load("validate.xhtml");
+        }
+    });
+	event.preventDefault();
+}
+
+function documentReady(){
+	$(document).ready(function(){
+		$('#password2').on('keyup', function(){
+			if($('#password1').val() !=  $('#password2').val()){
+				$('#password2').attr("class", "error");
+			}
+			else{
+				$('#password2').attr("class", "sucess");
+			}
+		});
+		
 	});
 }

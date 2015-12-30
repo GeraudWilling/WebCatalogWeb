@@ -6,18 +6,20 @@ www.geraudwilling.com
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
+<c:url var="insUrl" value="/inscription.service"/>
 
 <div class="inscription">
       <h2>Inscription</h2>
-      <form:form method="post" modelAttribute="client" class="form">
-	        <p><form:input path="nom" placeholder="Nom"/></p>
-	        <p><form:input path="email" placeholder="email"/></p>
-	        <p><form:input path="tel" placeholder="Telephone"/></p>
-	        <p><form:input path="adresse" placeholder="Adresse"/></p>
-	        <p><form:password path="carte" id="password1" placeholder="Mot de Passe"/></p>
-	        <p><input type="password" id="password2" placeholder="Confirmation password"/></p>
-	        <p class="submit"><button  onclick="submitInscription();" name="commit" value="Inscription">Inscription</button></p>
+      <form:form method="post" modelAttribute="client" class="form" action="${insUrl}">
+	        <p><form:input path="nom" class="input" placeholder="Nom" id="nom"/></p>
+	        <p><form:input path="email" class="input" placeholder="email" id="email"/></p>
+	        <p><form:input path="tel" class="input" placeholder="Telephone" id="tel"/></p>
+	        <p><form:input path="adresse" class="input" placeholder="Adresse" id="adresse"/></p>
+	        <p><form:password path="carte" class="input" id="password1" placeholder="Mot de Passe"/></p>
+	        <p><input type="password" id="password2" class="input" placeholder="Confirmation password"/></p>
+	        <p class="submit"><button  onclick="submitInscription(event);" name="commit">Inscription</button></p>
       </form:form>
 </div>
 

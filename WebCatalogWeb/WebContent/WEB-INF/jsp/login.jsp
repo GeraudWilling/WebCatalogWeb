@@ -5,16 +5,20 @@ www.geraudwilling.com
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
+
+<c:url var="logUrl" value="/login.service"/>
 
 <div class="login">
       <h2>Login</h2>
-      <form method="post" action="/" class="form">
-	        <p><input class="input" type="text" name="login" value="" placeholder="Username or Email"></p>
-	        <p><input class="input" type="password" name="password" value="" placeholder="Password"></p>
-	        <p class="submit"><input type="submit" name="commit" value="Login"></p>
+      <form:form method="post" modelAttribute="clientLogin" class="form" action="${logUrl}" >
+	        <p><form:input   path="email" class="input" value="" placeholder="Username or Email" id="login" /></p>
+	        <p><form:password   path="carte" class="input" value="" placeholder="Password" id= "password" /></p>
+	        <p class="submit"><button  name="commit" onclick="checkLogin(event);">Login</button></p>
 	        <p>Pas encore inscrit, créer un compte <a href="" onclick="inscription(event);">ici</a></p>
-      </form>
+      </form:form>
 </div>
 
 <style>

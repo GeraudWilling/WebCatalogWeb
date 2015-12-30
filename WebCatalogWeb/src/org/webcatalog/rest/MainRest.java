@@ -3,35 +3,65 @@ package org.webcatalog.rest;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.webcatalog.json.CategorieJson;
+import org.webcatalog.util.ClientView;
 import org.webcatalog.util.Context;
+import org.webcatalog.util.LoginView;
 
 import perso.webcatalog.bean.Categorie;
+import perso.webcatalog.bean.Client;
 import perso.webcatalog.remote.FacadeCategorieRemote;
+import perso.webcatalog.remote.FacadeClientRemote;
 
 @RestController
 public class MainRest {
-
-	@RequestMapping(value="/categories.service", method = RequestMethod.GET)
-	@ResponseStatus(HttpStatus.OK)
-	public List<CategorieJson> getAllCategories() {
-		System.out.println("**getAllCategories()**");
-		List<Categorie> categories= null;
-		List<CategorieJson> categoriesJson= new ArrayList<CategorieJson>();
-		@SuppressWarnings("unchecked")
-		FacadeCategorieRemote<Categorie> facadeCategorieRemote = (FacadeCategorieRemote<Categorie>)Context.jndiLookup(FacadeCategorieRemote.class);
-		categories= facadeCategorieRemote.findAll();
+	@SuppressWarnings("unchecked")
+	FacadeClientRemote<Client> facadeClientRemote = (FacadeClientRemote<Client>)Context.jndiLookup(FacadeClientRemote.class);
+	@SuppressWarnings("unchecked")
+	FacadeCategorieRemote<Categorie> facadeCategorieRemote = (FacadeCategorieRemote<Categorie>)Context.jndiLookup(FacadeCategorieRemote.class);
+	
+	
+	@RequestMapping(value="/inscription.service", method = RequestMethod.POST)
+	public boolean inscription(@ModelAttribute("client") ClientView clientview,BindingResult result, HttpSession session,HttpServletRequest req){	
+		Client client= new Client();
 		
-		for(Categorie cat: categories){
-			categoriesJson.add(new CategorieJson(cat));
+		try {
+			client.setAdresse(clientview.getAdresse());
+			client.setCarte(clientview.getCarte());
+			client.setEmail(clientview.getEmail());
+			client.setNom(clientview.getNom());
+			client.setTel(clientview.getTel());
+			client=facadeClientRemote.create(client);
+			if(client == null)
+				return false;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
 		}
-		System.out.println("exiting *"+ categoriesJson.size());
-		return categoriesJson;
+		System.out.println("insc**");
+		session.setAttribute("user",client);
+		return true;
+	}
+	
+	
+	@RequestMapping(value="/login.service", method = RequestMethod.POST)
+	public boolean chekLogin(@ModelAttribute("clientLogin") LoginView clientLogin,BindingResult result,HttpSession session){	
+		Client client= facadeClientRemote.identify(clientLogin.getEmail(), clientLogin.getCarte());
+		if(client == null)
+			return false;
+		session.setAttribute("client", client);
+		return true;
 	}
 
 }
+

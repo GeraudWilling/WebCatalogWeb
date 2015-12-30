@@ -1,6 +1,6 @@
 
 <!--  div id="footer">
-	<p>-->
+	<p>
 		<EM>&copy; Geraud Willing BONOU-SELEGBE</EM>
 		<a href="http://www.geraudwilling.com">www.geraudwilling.com</a>
 	<!--/p>
@@ -16,7 +16,7 @@
 			<span>|</span>
 		</p>
 		<p class="right">
-			<EM>&copy; Geraud Willing BONOU-SELEGBE</EM>
+			<EM>&copy; Boutaina DAKKI___Kaoutr LKHOU___Geraud BONOU-SELEGBE___</EM>
 			<a href="http://www.geraudwilling.com">www.geraudwilling.com</a>	
 		</p>
 	</div>

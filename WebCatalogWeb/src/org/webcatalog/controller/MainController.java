@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.webcatalog.util.ClientView;
 import org.webcatalog.util.Context;
+import org.webcatalog.util.LoginView;
 import org.webcatalog.util.Panier;
 
 import perso.webcatalog.bean.Categorie;
@@ -124,21 +127,18 @@ public class MainController {
 	
 	@RequestMapping(value="/inscription.xhtml", method = RequestMethod.GET)
 	public String inscription(Model model){	
-		model.addAttribute("client", new Client());
+		model.addAttribute("client", new ClientView());
 		return "inscription";
 	}
 	
-	@RequestMapping(value="/inscription.xhtml", method = RequestMethod.POST)
-	public String inscription(@ModelAttribute Client client,BindingResult result, HttpSession session){	
-		try {
-			facadeClientRemote.create(client);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "inscription";
-		}
-		System.out.println("insc**");
-		session.setAttribute("user",client);
-		return "summary";
+	@RequestMapping(value="/login.xhtml", method = RequestMethod.GET)
+	public String login(Model model){	
+		model.addAttribute("clientLogin", new LoginView());
+		return "login";     
 	}
+	
+	
+	
+	
 
 }

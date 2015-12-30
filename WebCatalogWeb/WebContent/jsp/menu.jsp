@@ -11,7 +11,8 @@
 	<ul>
 		<li><a href="">Accueil</a></li>
 		<li><a onclick="loadCategories(event);" href=''>Categorie</a></li>
-		<li><a href="" onclick="displayCart(event);">Panier</a></li>	
+		<li><a href="" onclick="displayCart(event);">Panier</a></li>
+		<li><a href="" onclick="login(event);">Connexion</a></li>	
 	</ul>
 </div>
 

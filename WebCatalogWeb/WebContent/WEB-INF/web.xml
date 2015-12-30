@@ -5,7 +5,7 @@
 	id="WebApp_ID" version="3.0">
 	<display-name>WebCatalogWeb</display-name>
 	<welcome-file-list>
-		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>accueil.jsp</welcome-file>
 	</welcome-file-list>
 	<servlet>
 		<servlet-name>webcatalog</servlet-name>
