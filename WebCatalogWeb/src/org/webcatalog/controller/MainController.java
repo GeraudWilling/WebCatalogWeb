@@ -1,17 +1,9 @@
 package org.webcatalog.controller;
 
 import java.util.ArrayList;
+
 import java.util.Date;
-import java.util.List;
-import java.util.Properties;
-import java.util.*;
-import javax.mail.*;
-import javax.mail.internet.*;
-import javax.activation.*;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.internet.MimeMessage;
+import java.util.List; 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 

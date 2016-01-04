@@ -70,11 +70,11 @@ function submitInscription(event){
 	        type: $(".form").attr('method'), 
 	        data: mydata, 
 	        success: function(data) {
-	        	alert(data);
+	        	//alert(data);
 	        	if(data == false)
-	        		alert("Email déjà existant");
+	        		alert("Email deja existant");
 	        	else
-	        		alert("Inscription réussie");
+	        		alert("Inscription reussie");
 	        	$("#index_content").load("validate.xhtml");
 	        }
 	    });
@@ -113,6 +113,23 @@ function checkLogin(event){
         	else{
         		alert("Login reussi")
         		$("#index_content").load("validate.xhtml");
+        	}
+        }
+    });
+	event.preventDefault();
+}
+
+
+function mdp(event){
+	$.ajaxSetup({ cache: false });
+	$.ajax({
+        url: "passforgot.service?email="+$("#login").val(), 
+        type: "GET", 
+        //data: mydata, 
+        success: function(html) { 
+        	if(html === false) alert('Email inexistant');
+        	else{
+        		alert("Un mail vous a ete envoye avec votre mot de passe")
         	}
         }
     });

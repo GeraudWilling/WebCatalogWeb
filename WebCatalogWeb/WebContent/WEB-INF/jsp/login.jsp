@@ -18,6 +18,7 @@ www.geraudwilling.com
 	        <p><form:password   path="carte" class="input" value="" placeholder="Password" id= "password" /></p>
 	        <p class="submit"><button  type="button" name="commit" onclick="checkLogin(event);">Login</button></p>
 	        <p>Pas encore inscrit, créer un compte <a href="" onclick="inscription(event);">ici</a></p>
+	        <p><a href="" onclick="mdp(event);">Mot de pass oublié? </a></p>
       </form:form>
 </div>
 
