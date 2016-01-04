@@ -3,7 +3,15 @@ package org.webcatalog.controller;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+import java.util.Properties;
+import java.util.*;
+import javax.mail.*;
+import javax.mail.internet.*;
+import javax.activation.*;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -16,13 +24,13 @@ import org.webcatalog.util.ClientView;
 import org.webcatalog.util.Context;
 import org.webcatalog.util.LoginView;
 import org.webcatalog.util.Panier;
+import org.webcatalog.util.SendMail;
 
 import perso.webcatalog.bean.Categorie;
 import perso.webcatalog.bean.Client;
 import perso.webcatalog.bean.CommandeClient;
 import perso.webcatalog.bean.Produit;
 import perso.webcatalog.bean.ProduitCommande;
-import perso.webcatalog.ejb.FacadeProduitCommande;
 import perso.webcatalog.remote.FacadeCategorieRemote;
 import perso.webcatalog.remote.FacadeClientRemote;
 import perso.webcatalog.remote.FacadeCommandeClientRemote;
@@ -157,6 +165,9 @@ public class MainController {
 		commandeClient.setDateCreation(new Date());
 		commandeClient.setMontant(total);
 		commandeClient.setNoConfirmation(today.getTime()+user.getId());//Numero de confirmation est la date + l'id de l'utilisateur
+		
+		
+		
 		try {
 			commandeClient=facadeCommandeClientRemote.create(commandeClient);
 			
@@ -174,11 +185,40 @@ public class MainController {
 			e.printStackTrace();
 			return "summary";
 		}
+		String text="<html><head></head><body><style type='text/css'>"
+				+ "#h2VAL{"
+				+ "color: red;"
+				+ "}"+
+				"#validatePourchase{"+
+				"width: 100%;"+
+	"text-align: center;"+
+"}"+
+".boldI{"+
+	"font-weight: bold;"+
+"}"+
+"#logo{"+
+	"font-style: italic;"+
+	"color: rgb(167,3,3);"+
+	"font-weight: bold;"+
+"}</style><h2>Votre commande a été créer avec succès</h2>"+
+	"<p>Le numero de confirmation de votre commande est: <span class='boldI'>"+today.getTime()+user.getId()+"</span>. <br/>"+
+	"Votre commande sera expédié dans les meilleurs délais à l'adresse: <span class='boldI'>"+user.getAdresse() +"</span>.</p>"+
+	"<p>Tout l''équipe  <span id='logo'>WEBCATALOGUE</span> vous remercie pour votre visite.</p>" +
+	"</div></body></html>";
+		Thread thread = new Thread(new SendMail(user.getEmail(), "webcatalog@webmail.com", "LOCALHOST", "Your commande on webcatalogue", text));
+		thread.start();
+		
 		return "validatePourchaseSucessFully";
 	}
 	
 	
-	
-	
 
 }
+
+
+
+
+
+
+
+
