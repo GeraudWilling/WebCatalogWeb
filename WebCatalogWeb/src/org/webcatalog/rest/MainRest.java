@@ -1,19 +1,13 @@
 package org.webcatalog.rest;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.webcatalog.json.CategorieJson;
 import org.webcatalog.util.ClientView;
 import org.webcatalog.util.Context;
 import org.webcatalog.util.LoginView;
@@ -41,8 +35,9 @@ public class MainRest {
 			client.setEmail(clientview.getEmail());
 			client.setNom(clientview.getNom());
 			client.setTel(clientview.getTel());
-			client=facadeClientRemote.create(client);
-			if(client == null)
+			//if(facadeClientRemote.a)
+				Client client2=facadeClientRemote.create(client);
+			if(client2 == null)
 				return false;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -59,7 +54,7 @@ public class MainRest {
 		Client client= facadeClientRemote.identify(clientLogin.getEmail(), clientLogin.getCarte());
 		if(client == null)
 			return false;
-		session.setAttribute("client", client);
+		session.setAttribute("user", client);
 		return true;
 	}
 

@@ -1,6 +1,7 @@
 package org.webcatalog.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,12 +9,9 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.webcatalog.util.ClientView;
 import org.webcatalog.util.Context;
 import org.webcatalog.util.LoginView;
@@ -21,9 +19,14 @@ import org.webcatalog.util.Panier;
 
 import perso.webcatalog.bean.Categorie;
 import perso.webcatalog.bean.Client;
+import perso.webcatalog.bean.CommandeClient;
 import perso.webcatalog.bean.Produit;
+import perso.webcatalog.bean.ProduitCommande;
+import perso.webcatalog.ejb.FacadeProduitCommande;
 import perso.webcatalog.remote.FacadeCategorieRemote;
 import perso.webcatalog.remote.FacadeClientRemote;
+import perso.webcatalog.remote.FacadeCommandeClientRemote;
+import perso.webcatalog.remote.FacadeProduitCommandeRemote;
 import perso.webcatalog.remote.FacadeProduitRemote;
 
 
@@ -36,6 +39,10 @@ public class MainController {
 	FacadeProduitRemote<Produit> facadeProduitRemote = (FacadeProduitRemote<Produit>)Context.jndiLookup(FacadeProduitRemote.class);
 	@SuppressWarnings("unchecked")
 	FacadeClientRemote<Client> facadeClientRemote = (FacadeClientRemote<Client>)Context.jndiLookup(FacadeClientRemote.class);
+	@SuppressWarnings("unchecked")
+	FacadeCommandeClientRemote<CommandeClient> facadeCommandeClientRemote = (FacadeCommandeClientRemote<CommandeClient>)Context.jndiLookup(FacadeCommandeClientRemote.class);
+	@SuppressWarnings("unchecked")
+	FacadeProduitCommandeRemote<ProduitCommande> facadeProduitCommandeRemote = (FacadeProduitCommandeRemote<ProduitCommande>)Context.jndiLookup(FacadeProduitCommandeRemote.class);
 	
 	
 	@RequestMapping(value="/categories.xhtml", method = RequestMethod.GET)
@@ -117,7 +124,7 @@ public class MainController {
 		String res="";
 		Client user= (Client)session.getAttribute("user");
 		if(user == null){
-			res="login";
+			res="redirect:/login.xhtml";
 		}else{
 			res="summary";
 		}
@@ -135,6 +142,39 @@ public class MainController {
 	public String login(Model model){	
 		model.addAttribute("clientLogin", new LoginView());
 		return "login";     
+	}
+	
+	
+	
+	@RequestMapping(value="/validatePourchase.xhtml", method = RequestMethod.GET)
+	public String validatePourchase(Model model, HttpSession session){	
+		Client user= (Client)session.getAttribute("user");
+		List<Panier> cart= (List<Panier>)session.getAttribute("cart");
+		double total= (Double)session.getAttribute("total");
+		Date today= new Date();
+		CommandeClient commandeClient = new CommandeClient();
+		commandeClient.setClient(user);
+		commandeClient.setDateCreation(new Date());
+		commandeClient.setMontant(total);
+		commandeClient.setNoConfirmation(today.getTime()+user.getId());//Numero de confirmation est la date + l'id de l'utilisateur
+		try {
+			commandeClient=facadeCommandeClientRemote.create(commandeClient);
+			
+			for(Panier panierItem: cart){
+				ProduitCommande produitCommande= new ProduitCommande();
+				produitCommande.setQuantite(panierItem.getQuantite());
+				produitCommande.setCommandeClient(commandeClient);
+				produitCommande.setProduit(panierItem.getProduit());
+				facadeProduitCommandeRemote.update(produitCommande);
+			}
+			session.removeAttribute("total");
+			session.removeAttribute("cart");
+			session.setAttribute("numConf", today.getTime()+user.getId());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "summary";
+		}
+		return "validatePourchaseSucessFully";
 	}
 	
 	

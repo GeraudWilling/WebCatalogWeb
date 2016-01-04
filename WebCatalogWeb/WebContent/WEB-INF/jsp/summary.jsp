@@ -33,5 +33,5 @@ www.geraudwilling.com
 </table>
 <p>Total               : <input type="text" value='${total}' readonly="readonly"/></p>
 <p>Adresse de Livraison: <input type="text" value='${user.adresse}' readonly="readonly"/></p>
-<button>Valider</button>
+<button onclick="validatePurchase(event);">Valider</button>
 </div>

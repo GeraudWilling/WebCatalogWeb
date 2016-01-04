@@ -53,26 +53,50 @@ function inscription(event){
 }
 
 function submitInscription(event){
-	$.ajaxSetup({ cache: false });
-	var mydata= $(".form").serialize();
-	if($("#nom").val() == "" || $("#nom").val()== "" ||$("#nom").val()== ""
-		|| $("#nom").val()== "" || $("#nom").val() == ""){
+	
+	if(($("#nom").val() === "") || ($("#email").val()=== "") || ($("#tel").val()==="")|| ($("#adresse").val()=== "") || ($("#password1").val() === "") ){
 		alert("Veuillez remplir tous les champs");
+		return false;
 	}
-	else if($("#password1").val() != $("#password2").val() ){
+	else if($("#password1").val() !== $("#password2").val()){
 		alert("Mots de passes differents");
+		return false;
 	}
 	else{
+		$.ajaxSetup({ cache: false });
+		var mydata= $(".form").serialize();
 		$.ajax({
 	        url: $(".form").attr('action'), 
 	        type: $(".form").attr('method'), 
 	        data: mydata, 
-	        success: function(html) { 
+	        success: function(data) {
+	        	alert(data);
+	        	if(data == false)
+	        		alert("Email déjà existant");
+	        	else
+	        		alert("Inscription réussie");
 	        	$("#index_content").load("validate.xhtml");
 	        }
 	    });
 		event.preventDefault();
+		return true;
 	}
+	
+}
+
+
+function ajaxTrigger(event){
+	$.ajaxSetup({ cache: false });
+	var mydata= $(".form").serialize();
+	$.ajax({
+        url: $(".form").attr('action'), 
+        type: $(".form").attr('method'), 
+        data: mydata, 
+        success: function(html) { 
+        	$("#index_content").load("validate.xhtml");
+        }
+    });
+	event.preventDefault();
 }
 
 
@@ -85,7 +109,11 @@ function checkLogin(event){
         type: $(".form").attr('method'), 
         data: mydata, 
         success: function(html) { 
-        	$("#index_content").load("validate.xhtml");
+        	if(html === false) alert('Informations incorrectes');
+        	else{
+        		alert("Login reussi")
+        		$("#index_content").load("validate.xhtml");
+        	}
         }
     });
 	event.preventDefault();
@@ -103,4 +131,11 @@ function documentReady(){
 		});
 		
 	});
+}
+
+
+function validatePurchase(event){
+	$.ajaxSetup({ cache: false });
+	$("#index_content").load("validatePourchase.xhtml");
+	event.preventDefault();
 }

@@ -12,14 +12,14 @@ www.geraudwilling.com
 
 <div class="inscription">
       <h2>Inscription</h2>
-      <form:form method="post" modelAttribute="client" class="form" action="${insUrl}">
+      <form:form method="post" modelAttribute="client" class="form" action="${insUrl}" onsubmit="submitInscription(event)">
 	        <p><form:input path="nom" class="input" placeholder="Nom" id="nom"/></p>
 	        <p><form:input path="email" class="input" placeholder="email" id="email"/></p>
 	        <p><form:input path="tel" class="input" placeholder="Telephone" id="tel"/></p>
 	        <p><form:input path="adresse" class="input" placeholder="Adresse" id="adresse"/></p>
 	        <p><form:password path="carte" class="input" id="password1" placeholder="Mot de Passe"/></p>
 	        <p><input type="password" id="password2" class="input" placeholder="Confirmation password"/></p>
-	        <p class="submit"><button  onclick="submitInscription(event);" name="commit">Inscription</button></p>
+	        <p class="submit"><input type="button"  value="Inscription"  name="commit" onclick="submitInscription(event)"/></p>
       </form:form>
 </div>
 
